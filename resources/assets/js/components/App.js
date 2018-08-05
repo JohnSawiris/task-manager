@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Header from './Header';
+import ProjectsList from './ProjectsList';
 
 export default class App extends Component {
     render() {
@@ -11,6 +12,9 @@ export default class App extends Component {
             <BrowserRouter>
                 <div>
                     <Header />
+                    <Switch>
+                        <Route eact path="/" component={ProjectsList} />
+                    </Switch>
                 </div>
             </BrowserRouter>
         );
