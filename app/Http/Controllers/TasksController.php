@@ -10,13 +10,11 @@ class TasksController extends Controller
     // Store Task
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required',
-        ]);
+        $validatedData = $request->validate(['title' => 'required']);
 
         $task = Task::create([
-            'title' => $validatedData['title'],
-            'project_id' => $request->project_id
+          'title' => $validatedData['title'],
+          'project_id' => $request->project_id,
         ]);
 
         return $task->toJson();
@@ -26,8 +24,7 @@ class TasksController extends Controller
     public function markAsCompleted(Task $task)
     {
         $task->is_completed = true;
-        $task->update();
-
+        $task->delete();
         return response()->json('Task updated!');
     }
 }

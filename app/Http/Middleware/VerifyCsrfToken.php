@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        'http://taskman.test/api/projects/*',
+        'http://taskman.test/api/tasks/*',
     ];
 }

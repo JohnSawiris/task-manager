@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Route, Switch } from 'react-router-dom'; 
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 // Components
 import Header from './Header';
 import ProjectsList from './ProjectsList';
+import NewProject from './NewProject';
+import SingleProject from './SingleProject';
 
 export default class App extends Component {
     render() {
@@ -13,7 +15,9 @@ export default class App extends Component {
                 <div>
                     <Header />
                     <Switch>
-                        <Route eact path="/" component={ProjectsList} />
+                        <Route exact path="/" component={ProjectsList} />
+                        <Route path="/create" component={NewProject} />
+                        <Route path="/:id" component={SingleProject} />
                     </Switch>
                 </div>
             </BrowserRouter>

@@ -7,49 +7,39 @@ use Illuminate\Http\Request;
 
 class ProjectsController extends Controller
 {
-    // Get All Projects and Tasks that are yet to be completed
-    public function idnex()
-    {
-        $projects = Project::where('is_completed', false)
-                            ->orderBy('created_at', 'desc')
-                            ->withCount(['tasks' => function($query) {
-                                $query->where('is_completed', false);
-                            }])
-                            ->get();
-        return $projects->toJson();
-    }
+	public function index()
+	{
+		$projects = Project::with('Tasks')->get();
+		return $projects;
+	}
 
-    // Store project
-    public function store(Request $request)
-    {
-        $validateData = $request->validate([
-            'name' => 'required',
-            'description' => 'required'
-        ]);
+	public function store(Request $request)
+	{
+		$validatedData = $request->validate([
+			'name' => 'required',
+			'description' => 'required',
+		]);
 
-        $project = Project::create([
-            'name' => $validateDate['name'],
-            'description' => $validateDate['description']
-        ]);
+		$project = Project::create([
+			'name' => $validatedData['name'],
+			'description' => $validatedData['description'],
+		]);
 
-        return response()->json('Project created!');
-    }
-    
-    // Fetch a Single Project
-    public function show($id)
-    {
-        $project = Project::with(['tasks' => function($query) {
-            $query->where('is_completed', false);
-        }])->find($id);
-        return $project->toJson;
-    }
+		return response()->json('Project created!');
+	}
 
-    // Update Project As Completed
-    public function markAsCompleted(Projec $project)
-    {
-        $project->is_completed = true;
-        $project->update();
+	public function show($id)
+	{
+		$project = Project::with('Tasks')->find($id);
 
-        return response()->json('Project updated!');
-    }
+		return $project->toJson();
+	}
+
+	public function markAsCompleted(Project $project)
+	{
+		$project->is_completed = true;
+		$project->update();
+
+		return response()->json('Project updated!');
+	}
 }
